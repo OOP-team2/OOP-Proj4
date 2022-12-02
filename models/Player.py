@@ -42,9 +42,9 @@ class player(Money,Hand):
     #     self.money-=self.betfee
         
     # def ddadang(self,otherplayerbet,otherplayercallfee):
-        self.callfee=abs(self.betsum-otherplayerbet)
-        self.betfee=self.callfee+otherplayercallfee
-        if self.betfee>self.money:
-            self.alive=False
-        self.betsum+=self.betfee
-        self.money-=self.betfee
+    #     self.callfee=abs(self.betsum-otherplayerbet)
+    #     self.betfee=self.callfee+otherplayercallfee
+    #     if self.betfee>self.money:
+    #         self.alive=False
+    #     self.betsum+=self.betfee
+    #     self.money-=self.betfee

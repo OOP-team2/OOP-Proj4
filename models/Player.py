@@ -33,15 +33,15 @@ class player(Money,Hand):
         self.betsum+=self.betfee
         self.money-=self.betfee
         
-    def quarter(self,otherplayerbet,moneyonthegame):
-        self.callfee=abs(self.betsum-otherplayerbet)
-        self.betfee=self.callfee+(self.callfee+moneyonthegame)/4
-        if self.betfee>self.money:
-            self.alive=False
-        self.betsum+=self.betfee
-        self.money-=self.betfee
+    # def quarter(self,otherplayerbet,moneyonthegame):
+    #     self.callfee=abs(self.betsum-otherplayerbet)
+    #     self.betfee=self.callfee+(self.callfee+moneyonthegame)/4
+    #     if self.betfee>self.money:
+    #         self.alive=False
+    #     self.betsum+=self.betfee
+    #     self.money-=self.betfee
         
-    def ddadang(self,otherplayerbet,otherplayercallfee):
+    # def ddadang(self,otherplayerbet,otherplayercallfee):
         self.callfee=abs(self.betsum-otherplayerbet)
         self.betfee=self.callfee+otherplayercallfee
         if self.betfee>self.money:

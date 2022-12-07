@@ -1,28 +1,27 @@
-# 베팅 금액을 책임지는 클래스입니다.
 class Money:
-    def __init__(self,money=0):
+    def __init__(self,money:int =0) -> None:
         self.money=money
         self.betsum=0
         self.callfee=10000
         self.betfee=0
         
-    def getmoney(self):
+    def getmoney(self)->int:
         return self.money
     
-    def getbetsum(self):
+    def getbetsum(self)->int:
         return self.betsum
     
-    def getcallfee(self):
+    def getcallfee(self)->int:
         return self.callfee
     
-    def getbetfee(self):
+    def getbetfee(self)->int:
         return self.betfee
     
-    def setmoney(self,money):
-        self.money=money
+    # def setmoney(self,money:int=0)->None:
+    #     self.money=money
     
-    def bet(self,bet):
+    def bet(self,bet:int)->None:
         self.money-=bet
         
-    def playerbet(self,playerbet): #판에 깔린돈 객체 용
+    def playerbet(self,playerbet:int)->None: #판에 깔린돈 객체 용
         self.money+=playerbet

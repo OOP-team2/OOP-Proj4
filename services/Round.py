@@ -57,7 +57,7 @@ class Round:
                 # 한 턴씩 진행합니다.
                 # 둘 중에 하나가 죽으면 현재 라운드의 총 베팅 금액은 죽지않은쪽으로 갑니다.
                 # 둘중에 하나라도 게임을 종료하면(exit) 바로 함수를 종료합니다.
-                actions1 = players[turn].actions(first_turn, self.did_call[turn])
+                actions1 = players[turn].actions(round_turn, first_turn, self.did_call[turn])
                 # 선택할 수 있는 액션만 보여줍니다.
                 self.__view_interface.display_menu([action.name for action in actions1])
 
@@ -69,12 +69,13 @@ class Round:
                 else:
                     action1 = players[turn].auto_action()
                 turn = self.__take_action(action1, turn, players[turn], bets)
+                
                 self.__view_interface.display_total_betting(sum(bets))
                 self.__view_interface.display_player(players[turn].get_id(), players[turn].get_stakes())
 
                 # 엑싯한 경우, 그냥 게임을 종료하고 게임의 승자는 상대편이 됩니다.
                 # 예외를 발생시키고 패자 메시지를 담습니다.
-                actions2: Action = players[turn].actions(first_turn, self.did_call[turn])
+                actions2: Action = players[turn].actions(round_turn, first_turn, self.did_call[turn])
                 # 선택할 수 있는 액션만 보여줍니다.
                 self.__view_interface.display_menu([action.name for action in actions2])
                 # 액션을 입력받습니다.
@@ -85,15 +86,16 @@ class Round:
                 else:
                     action2 = players[turn].auto_action()
                 turn = self.__take_action(action2, turn, players[turn], bets)
+
                 self.__view_interface.display_total_betting(sum(bets))
                 self.__view_interface.display_player(players[turn].get_id(), players[turn].get_stakes())
                 
                 if self.__is_round_end(action1, action2):
                     all_set = True
                 round_turn += 1
-        except Die:
+        except Die as e:
             # 죽는 행동이 나오면 여기서 캐치해서 라운드를 끝냅니다.
-            self.winner_id = (Die.looser+1)%2
+            self.winner_id = (int(e)+1)%2
         finally:
             self.total_bet = sum(bets)
             players[self.winner_id].take(self.total_bet)
@@ -104,32 +106,30 @@ class Round:
         is_round_end = False
         if action1 == Action.CALL and action2 == Action.CALL:
             is_round_end = True
-        elif action1 == Action.DIE or action2 == Action.DIE:
-            is_round_end = True
         return is_round_end
 
     def __take_action(self, action: Action, turn: int, player: Player, bets: [int]) -> int:
         if action == Action.EXIT:
             self.total_bet = sum(bets)
-            raise Exit(looser=player.get_id())
+            raise Exit(str(player.get_id()))
         elif action == Action.DIE:
-            raise Die(looser=player.get_id())
+            raise Die(str(player.get_id()))
         elif action == Action.CALL:
             self.did_call[turn] = True
-            if max(bets) > player.get_stakes():
+            bet_amount: int = bets[(turn+1)%2] - bets[turn]
+            if bet_amount > player.get_stakes():
                 # 가진 돈보다 콜 해야하는 금액이 많으면 올인합니다.
                 bets[turn] += player.get_stakes()
                 player.bet(player.get_stakes())
             else:
-                bet_amount = max(bets) - bets[turn]
-                bets[turn] = max(bets)
+                bets[turn] += bet_amount
                 player.bet(bet_amount)
         elif action == Action.HALF:
             # 가진 돈보다 하프 해야하는 금액이 많으면 올인합니다.
-            half_bet_amount = max(bets) * 3 - player.get_stakes()
+            half_bet_amount: int = max(bets)
             if half_bet_amount > player.get_stakes():
                 # 가진 돈보다 하프 해야하는 금액이 많으면 올인합니다.
-                bets[turn] = player.get_stakes()
+                bets[turn] += player.get_stakes()
                 player.bet(player.get_stakes())
             else:
                 bets[turn] += half_bet_amount

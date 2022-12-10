@@ -7,57 +7,53 @@ from models.Action import Action
 class AutoPlayer(Player):
     def __init__(self, initial_stakes: int = 10000) -> None:
         Player.__init__(self, initial_stakes)
-        self.__player_id = 1
-
-    def __decide_bet(self) -> int:
-        # 특정 로직에 의해 컴퓨터 플레이어가 베팅할 금액을 정합니다.
-        return 100
+        self.player_id = 1
 
     def auto_action(self) -> Action:
-        rannum=randrange(1,100)
-        if self.__hand in [1]:#삼팔 광땡
+        rannum = randrange(1,100)
+        if self.hand in [1]:#삼팔 광땡
             if rannum in [i for i in range(1,2)]:
                 return Action.DIE
             elif rannum in [i for i in range(2,4)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [2,3]:#다른 광땡
+        elif self.hand in [2,3]:#다른 광땡
             if rannum in [i for i in range(1,4)]:
                 return Action.DIE
             elif rannum in [i for i in range(4,7)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [3,4,5,6,7]:
+        elif self.hand in [3,4,5,6,7]:
             if rannum in [i for i in range(1,8)]:
                 return Action.DIE
             elif rannum in [i for i in range(8,18)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [8,9,10,11,12]:
+        elif self.hand in [8,9,10,11,12]:
             if rannum in [i for i in range(1,11)]:
                 return Action.DIE
             elif rannum in [i for i in range(11,23)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [13,14,15,16,17,18]:
+        elif self.hand in [13,14,15,16,17,18]:
             if rannum in [i for i in range(1,16)]:
                 return Action.DIE
             elif rannum in [i for i in range(16,36)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [19,20,21,22,23]:
+        elif self.hand in [19,20,21,22,23]:
             if rannum in [i for i in range(1,36)]:
                 return Action.DIE
             elif rannum in [i for i in range(36,76)]:
                 return Action.CALL
             else:
                 return Action.HALF
-        elif self.__hand in [24,25,26,27]:
+        elif self.hand in [24,25,26,27]:
             if rannum in [i for i in range(1,51)]:
                 return Action.DIE
             elif rannum in [i for i in range(51,86)]:
@@ -74,4 +70,4 @@ class AutoPlayer(Player):
 
 
     def get_id(self):
-        return self.__player_id
+        return self.player_id

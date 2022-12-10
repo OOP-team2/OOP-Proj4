@@ -1,7 +1,6 @@
 # 패를 나눠주는 딜러입니다.
 from models.Hand import Hand
 from models.Player import Player
-from models.Hand import Hand
 import itertools
 import random
 from models.Rule import Jokbo as Rule

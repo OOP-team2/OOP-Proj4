@@ -1,5 +1,4 @@
 import time
-
 from models.Player import Player
 from models.Dealer import Dealer
 from models.AutoPlayer import AutoPlayer
@@ -45,7 +44,7 @@ class Game:
         # 라운드마다 플레이어와 컴퓨터가 각자 베팅한 금액의 총합에 대한 정보가 어딘가 있어야한다.(라운드, 딜러)
         # -> 라운드로 합시다.
         # 첫 턴은 항상 플레이어입니다. game_turn이 1이면 플레이어 턴, 0이면 컴퓨터 턴입니다.
-        game_turn: int = 1
+        game_turn: int = 0
         rounds: int = 1
         try:
             while not self.dealer.check_game_ended(self.player, self.computer_player):
@@ -64,11 +63,11 @@ class Game:
                 # 패가 분배되면 플레이어는 패를 확인합니다.
                 # 패는 콘솔창에 출력합니다.
                 self.view_interface.display_hand(self.player.get_id(), self.player.get_hand(), front=True)
-                self.view_interface.display_hand(self.computer_player.get_id(), self.computer_player.get_hand(), front=True)
+                self.view_interface.display_hand(self.computer_player.get_id(), self.computer_player.get_hand(), front=False)
                 
                 # 라운드가 시작됩니다. 베팅이 반복됩니다.
-                self.view_interface.display_player(self.player.get_id(), self.player.get_stakes())
-                self.view_interface.display_player(self.computer_player.get_id(), self.computer_player.get_stakes())
+                self.view_interface.display_player(self.player.get_id(), self.player.get_stakes() - self.default_bet)
+                self.view_interface.display_player(self.computer_player.get_id(), self.computer_player.get_stakes() - self.default_bet)
                 game_round.start_round(game_turn, [self.computer_player, self.player])
 
                 # 딜러가 승자를 판별합니다.
@@ -85,11 +84,12 @@ class Game:
                 game_turn %= 2
                 # 시간 간격을 둡니다. 3초 정도
                 time.sleep(3)
+
             # 게임이 끝나면 승자를 판별합니다.
             # 가진 돈이 더 많은 쪽이 승자입니다.
             self.winner = self.player if self.player.get_stakes() > self.computer_player.get_stakes() else self.computer_player
-        except Exit:
-            self.winner = self.player if Exit.looser == 0 else self.computer_player
+        except Exit as e:
+            self.winner = self.player if e == '1' else self.computer_player
         finally:
             # 게임이 끝나면 승자와 최종 승리 금액을 출력합니다.
             self.view_interface.display_winner(self.winner.get_id())

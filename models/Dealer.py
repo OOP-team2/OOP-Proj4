@@ -17,6 +17,10 @@ class Dealer:
             return player1
         elif player1_value > player2_value:
             return player2
+        elif player1_value == plaeyr2_value:
+            print("무승부 입니다")
+            Round.start_round()
+
         # 두 플레이어의 패를 비교해서 밸류가 높은 쪽이 승리합니다.
         # 무승부는 존재하지 않습니다.
     def distribute_cards(self, player1: Player, player2: Player) -> None:

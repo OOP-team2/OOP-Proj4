@@ -2,8 +2,8 @@ from console.screen import sc
 from views.WordView import *
 from views.NumberView import *
 
-ROW_WINDOW = 192
-COL_WINDOW = 56
+WIDTH_WINDOW = 192
+HEIGHT_WINDOW = 56
 
 BORDER_WIDTH = 63
 PLAYER_BORDER_HEIGHT = 23
@@ -11,7 +11,7 @@ MENU_BORDER_HEIGHT = 35
 
 POS_PLAYER_BORDER_RIGHT = 63
 POS_MENU_BORDER_LEFT = 128
-POS_MENU = (COL_WINDOW - 35, 130)
+POS_MENU = (HEIGHT_WINDOW - 35, 130)
 POS_ROUNDS = (25, 1)
 
 MENU = {
@@ -26,7 +26,7 @@ class BackgroundView(NumberView, WordView):
     def __init__(self):
         NumberView.__init__(self)
         WordView.__init__(self)
-        os.system(f"mode {ROW_WINDOW},{COL_WINDOW}")
+        os.system(f"mode {WIDTH_WINDOW + 1},{HEIGHT_WINDOW + 1}")
         os.system("color 0f")
         os.system("cls")
 
@@ -35,6 +35,10 @@ class BackgroundView(NumberView, WordView):
         self.__draw_menu_box()
 
     def display_menu(self, actions: [str] = ("EXIT", "DIE", "CALL", "HALF")):
+        # for i in range(MENU_BORDER_HEIGHT - 1):
+        #     with sc.location(POS_MENU[0] + i, POS_MENU[1]):
+        #         print(" " * 64)
+
         for i, word in enumerate(actions):
             self.display_number(MENU[word], (POS_MENU[0] + (i * (NUM_HEIGHT+2)), POS_MENU[1]))
             self.display_word(word, (POS_MENU[0] + (i * (NUM_HEIGHT+2)), POS_MENU[1] + (2 * NUM_WIDTH)))
@@ -46,7 +50,7 @@ class BackgroundView(NumberView, WordView):
             self.display_number(num, (POS_ROUNDS[0], POS_ROUNDS[1] + (i + 1) * NUM_WIDTH))
 
     def display_input(self) -> int:
-        pos = (COL_WINDOW - (MENU_BORDER_HEIGHT + 2), POS_MENU_BORDER_LEFT)
+        pos = (HEIGHT_WINDOW - (MENU_BORDER_HEIGHT + 2), POS_MENU_BORDER_LEFT)
         while True:
             with sc.location(pos[0], pos[1]):
                 choice = input("CHOICE : ")
@@ -61,21 +65,21 @@ class BackgroundView(NumberView, WordView):
             with sc.location(i-1, POS_PLAYER_BORDER_RIGHT):
                 print("|")
 
-            with sc.location(COL_WINDOW - (i+1), POS_PLAYER_BORDER_RIGHT):
+            with sc.location(HEIGHT_WINDOW - (i + 1), POS_PLAYER_BORDER_RIGHT):
                 print("|")
 
         for i in range(BORDER_WIDTH):
             with sc.location(PLAYER_BORDER_HEIGHT - 1, i):
                 print("-")
 
-            with sc.location(COL_WINDOW - (PLAYER_BORDER_HEIGHT + 1), i):
+            with sc.location(HEIGHT_WINDOW - (PLAYER_BORDER_HEIGHT + 1), i):
                 print("_")
 
     def __draw_menu_box(self):
         for i in range(MENU_BORDER_HEIGHT):
-            with sc.location(COL_WINDOW - (i + 2), POS_MENU_BORDER_LEFT):
+            with sc.location(HEIGHT_WINDOW - (i + 2), POS_MENU_BORDER_LEFT):
                 print("|")
 
         for i in range(BORDER_WIDTH):
-            with sc.location(COL_WINDOW - (MENU_BORDER_HEIGHT + 1), POS_MENU_BORDER_LEFT + i):
+            with sc.location(HEIGHT_WINDOW - (MENU_BORDER_HEIGHT + 1), POS_MENU_BORDER_LEFT + i):
                 print("-")

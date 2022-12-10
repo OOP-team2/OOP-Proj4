@@ -69,6 +69,7 @@ class Round:
                 else:
                     action1 = players[turn].auto_action()
                 turn = self.__take_action(action1, turn, players[turn], bets)
+                
                 self.__view_interface.display_total_betting(sum(bets))
                 self.__view_interface.display_player(players[turn].get_id(), players[turn].get_stakes())
 

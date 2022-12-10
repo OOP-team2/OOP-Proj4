@@ -39,6 +39,3 @@ class ViewInterface:
 
     def display_winner(self, winner: int):
         self.__wv.display_winner(winner)
-
-
-#sample code

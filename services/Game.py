@@ -1,5 +1,4 @@
 import time
-
 from models.Player import Player
 from models.Dealer import Dealer
 from models.AutoPlayer import AutoPlayer
@@ -85,6 +84,7 @@ class Game:
                 game_turn %= 2
                 # 시간 간격을 둡니다. 3초 정도
                 time.sleep(3)
+
             # 게임이 끝나면 승자를 판별합니다.
             # 가진 돈이 더 많은 쪽이 승자입니다.
             self.winner = self.player if self.player.get_stakes() > self.computer_player.get_stakes() else self.computer_player

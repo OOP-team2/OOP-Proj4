@@ -37,7 +37,8 @@ class Game:
         self.view_interface.display_player(self.computer_player.get_id(), self.computer_player.get_stakes())
 
         self.view_interface.display_betting(0)
-        self.view_interface.display_total_betting(0)
+        self.view_interface.display_total_betting(100000000)
+        self.view_interface.display_total_betting(5432)
 
         # 게임이 끝나지 않았으면 게임을 계속합니다.
         # 매번 한 라운드를 생성합니다.

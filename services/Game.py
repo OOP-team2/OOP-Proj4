@@ -1,6 +1,6 @@
 import time
 from models.Player import Player
-from models.Dealer import Dealer
+from services.Dealer import Dealer
 from models.AutoPlayer import AutoPlayer
 from services.Round import Round
 from exceptions.Exit import Exit
@@ -16,7 +16,7 @@ class Game:
         # member variable for the winner of game
         self.winner: Player = None
         # member variable for total bet
-        self.totalBet: int = 0
+        self.total_bet: int = 0
         # member variable for the dealer of game
         self.dealer: Dealer = None
         # member variable for the computer player
@@ -91,4 +91,5 @@ class Game:
         except Exit as e:
             self.winner = self.player if str(e) == '1' else self.computer_player
         finally:
+            self.total_bet = self.winner.get_stakes()
             self.view_interface.display_winner(self.winner.get_id())

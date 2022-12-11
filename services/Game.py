@@ -57,6 +57,7 @@ class Game:
                     self.default_bet = 1000
 
                 game_round: Round = Round(self.default_bet, self.dealer, self.view_interface)
+                
                 # 라운드가 생성되면 딜러가 패를 분배합니다.
                 self.dealer.distribute_cards(self.player, self.computer_player)
 
@@ -66,12 +67,25 @@ class Game:
                 self.view_interface.display_hand(self.computer_player.get_id(), self.computer_player.get_hand(), front=False)
                 
                 # 라운드가 시작됩니다. 베팅이 반복됩니다.
-                self.view_interface.display_player(self.player.get_id(), self.player.get_stakes() - self.default_bet)
-                self.view_interface.display_player(self.computer_player.get_id(), self.computer_player.get_stakes() - self.default_bet)
-                game_round.start_round(game_turn, [self.computer_player, self.player])
+                self.player.bet(self.default_bet)
+                self.computer_player.bet(self.default_bet)
+                self.view_interface.display_player(self.player.get_id(), self.player.get_stakes())
+                self.view_interface.display_player(self.computer_player.get_id(), self.computer_player.get_stakes())
+
+                game_round.start_round(game_turn, [self.player, self.computer_player])
 
                 # 딜러가 승자를 판별합니다.
-                round_winner: Player = self.dealer.announce_winner(self.player, self.computer_player)
+                round_winner: Player = self.dealer.announce_winner(self.player, self.computer_player, False)
+
+                # 만약 무승부면 묻고 다음판으로 갑니다.
+                # if round_winner.get_stakes() == -1:
+                #     self.view_interface.display_hand(self.computer_player.get_id(), self.computer_player.get_hand(), front=True)
+                #     self.dealer.distribute_cards(self.player, self.computer_player)
+                #     self.view_interface.display_hand(self.player.get_id(), self.player.get_hand(), front=True)
+                #     self.view_interface.display_hand(self.computer_player.get_id(), self.computer_player.get_hand(), front=False)
+                #     game_round.restart_round([self.player, self.computer_player])
+                #     # This time no draw
+                #     round_winner = self.dealer.announce_winner(self.player, self.computer_player, True)
 
                 # 라운드에 승자를 추가합니다.
                 # 라운드 승자와 얻은 금액을 입력합니다.
@@ -80,8 +94,7 @@ class Game:
                 rounds += 1
                 # 라운드를 진행된 라운드에 추가하는 것은 라운드가 끝나고 마지막에 합니다.
                 self.rounds.append(game_round)
-                game_turn += 1
-                game_turn %= 2
+                game_turn = 1 if game_turn == 0 else 0
                 # 시간 간격을 둡니다. 3초 정도
                 time.sleep(3)
 
@@ -89,7 +102,7 @@ class Game:
             # 가진 돈이 더 많은 쪽이 승자입니다.
             self.winner = self.player if self.player.get_stakes() > self.computer_player.get_stakes() else self.computer_player
         except Exit as e:
-            self.winner = self.player if e == '1' else self.computer_player
+            self.winner = self.player if str(e) == '1' else self.computer_player
         finally:
             # 게임이 끝나면 승자와 최종 승리 금액을 출력합니다.
             self.view_interface.display_winner(self.winner.get_id())

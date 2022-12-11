@@ -40,7 +40,7 @@ class BackgroundView(NumberView, WordView):
         #         print(" " * 64)
 
         for i, word in enumerate(actions):
-            self.display_number(MENU[word], (POS_MENU[0] + (i * (NUM_HEIGHT+2)), POS_MENU[1]))
+            self.display_number(i, (POS_MENU[0] + (i * (NUM_HEIGHT+2)), POS_MENU[1]))
             self.display_word(word, (POS_MENU[0] + (i * (NUM_HEIGHT+2)), POS_MENU[1] + (2 * NUM_WIDTH)))
 
     def display_rounds(self, rounds: int = 1):

@@ -20,7 +20,7 @@ class Player:
         self.stakes -= money
     def take(self, money: int) -> None:
         self.stakes += money
-    def actions(self, round_turn: int, first_turn: int = 0, did_call: bool = False) -> [Action]:
+    def actions(self, round_turn: int, first_turn: int = 0, did_call: bool = False):
         # 단 첫턴인 경우에는 콜 못합니다.
         # 한번 콜하면 콜 다이 밖에 못함
         if first_turn == self.player_id and round_turn == 1:
@@ -30,7 +30,7 @@ class Player:
         else:
             return self.available_actions
 
-    def set_hand(self, hand: [int]) -> None:
+    def set_hand(self, hand) -> None:
         self.hand.clear()
         self.hand.extend(hand)
 

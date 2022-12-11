@@ -1,13 +1,16 @@
-# 테스트 파일을 읽어오는 클래스입니다.
-
+# This is a Class for reading txt files
 class TxtReader:
+    # constructor for TxtReader Class
     def __init__(self) -> None:
+        # member variable for hands
         self.hands = dict()
+        # member variable for numbers
         self.numbers = dict()
+        # member variable for numbers
         self.words = dict()
 
+    # member function for reading hand from txt
     def read_hands(self) -> dict:
-
         for i in range(21):
             self.hands[str(i)] = []
             f = open(f"./src/img/hands/{i}.txt", encoding="UTF8")
@@ -16,6 +19,7 @@ class TxtReader:
 
         return self.hands
 
+    # member function for reading numbers from txt
     def read_numbers(self) -> dict:
         for i in range(10):
             self.numbers[str(i)] = []
@@ -25,6 +29,7 @@ class TxtReader:
 
         return self.numbers
 
+    # member function for reading words from txt
     def read_words(self) -> dict:
         self.words.update({
             "CALL": [],
@@ -47,6 +52,7 @@ class TxtReader:
 
         return self.words
 
+    # member function reading file and save to container
     def __read_file_to_dict(self, f, container):
         k = 0
         while True:

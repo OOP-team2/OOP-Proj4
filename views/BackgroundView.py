@@ -53,12 +53,11 @@ class BackgroundView(NumberView, WordView):
         pos = (HEIGHT_WINDOW - (MENU_BORDER_HEIGHT + 2), POS_MENU_BORDER_LEFT)
         while True:
             with sc.location(pos[0], pos[1]):
+                print(" " * 50)
+            with sc.location(pos[0], pos[1]):
                 choice = input("CHOICE : ")
-                if "0" <= choice <= "3":
+                if choice in ["0", "1", "2", "3"]:
                     return int(choice)
-                else:
-                    with sc.location(pos[0], pos[1]):
-                        print(" " * 50)
 
     def __draw_player_box(self):
         for i in range(PLAYER_BORDER_HEIGHT):

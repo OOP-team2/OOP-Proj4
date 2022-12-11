@@ -22,6 +22,7 @@ class ViewInterface:
         self.__bg.display_menu(actions)
 
     def display_rounds(self, rounds: int = 1):
+        self.__clear(POS_ROUNDS, (POS_ROUNDS[0] + WORD_HEIGHT, POS_ROUNDS[1] + 2 * NUM_WIDTH))
         self.__bg.display_rounds(rounds)
 
     def display_input(self) -> int:

@@ -1,14 +1,15 @@
-# 패를 나눠주는 딜러입니다.
-from models.Hand import Hand
 from models.Player import Player
-import itertools
-import random
 from models.Jokbo import Jokbo
+import random
 
+# This is a Class for a dealer of a game
 class Dealer:
+    # constructor for a dealer instance
     def __init__(self):
+        # member variable for jokbo(table of hand value)
         self.jokbo = Jokbo()
 
+    # member function for announcing a winner
     def announce_winner(self, player1: Player, player2: Player, is_draw: bool) -> Player:
         player1_value = self.calc_rules(player1.hand)
         player2_value = self.calc_rules(player2.hand)
@@ -25,10 +26,8 @@ class Dealer:
             elif player1_value > player2_value:
                 return player2
 
+    # member function for distributing cards
     def distribute_cards(self, player1: Player, player2: Player) -> None:
-        
-        # 플레이어에게 카드를 분배합니다.
-        # 퍼블릭 메소드를 이용해서 플레이어 내부의 멤버변 수 hands에 새로운 패를 넣어줍니다.
         numbers = [i for i in range(1,21)]
         
         temp_numbers_list = random.sample(numbers, 4)
@@ -43,6 +42,7 @@ class Dealer:
         player1.set_hand(hand1)
         player2.set_hand(hand2)
 
+    # member function for checking whether game is ended
     def check_game_ended(self, player: Player, computer_player: Player) -> bool:
         is_game_ended = False
         if player.get_stakes() == 0:
@@ -51,6 +51,7 @@ class Dealer:
             is_game_ended = True
         return is_game_ended
 
+    # member function for calculating value of a hand
     def calc_rules(self, paes):
         jokbo = self.jokbo.create_jokbo()
         paes = sorted(paes, key=lambda x: x)

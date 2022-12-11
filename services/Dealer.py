@@ -52,7 +52,7 @@ class Dealer:
         return is_game_ended
 
     # member function for calculating value of a hand
-    def calc_rules(self, paes):
+    def calc_rules(self, paes: []) -> int:
         jokbo = self.jokbo.create_jokbo()
         paes = sorted(paes, key=lambda x: x)
         paes_str = str(paes[0] % 11) + ',' + str(paes[1] % 11)

@@ -34,7 +34,7 @@ class Player:
         self.stakes += money
     
     # member function for returning available actions
-    def actions(self, round_turn: int, first_turn: int = 0, did_call: bool = False):
+    def actions(self, round_turn: int, first_turn: int = 0, did_call: bool = False) -> []:
         if first_turn == self.player_id and round_turn == 1:
             return self.actions_on_first_turn
         elif did_call:
@@ -48,5 +48,5 @@ class Player:
         self.hand.extend(hand)
 
     # member function for getting a hand of a player
-    def get_hand(self) -> list:
+    def get_hand(self) -> []:
         return self.hand

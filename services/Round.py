@@ -3,36 +3,37 @@ from models.Player import Player
 from exceptions.Exit import Exit
 from exceptions.Die import Die
 from views.ViewInterface import ViewInterface
+from services.Dealer import Dealer
 
 # This is a Class for a round of a game
 class Round:
     # constructor for a Round instance
-    def __init__(self, default_bet: int, dealer, view_interface: ViewInterface) -> None:
+    def __init__(self, default_bet: int, dealer: Dealer, view_interface: ViewInterface) -> None:
         # member variable for saving winner id
         self.winner_id: int = -1
         # member variable for dealer of a round
-        self.dealer = dealer
+        self.dealer: Dealer = dealer
         # member variable for total bet of a round
-        self.total_bet = 0
+        self.total_bet: int = 0
         # member variable for a default bet of a round
-        self.default_bet = default_bet
+        self.default_bet: int = default_bet
         # member variable for user interface
         self.__view_interface: ViewInterface = view_interface
         # member variable for saving how many turns are done in a round
         self.rounds_done_in: int = 0
         # member variable for saving the user had call action
-        self.did_call = [False,False]
+        self.did_call: [] = [False,False]
         # member variable for saving who is the first turn
         self.first_turn: int = 0
         # member variable for saving the bets of a round
-        self.bets = []
+        self.bets: [] = []
     
     # member function for adding a winner of a round
     def add_winner(self, winner: Player) -> None:
         self.winner = winner
 
     # member function for restargin a round when a draw happens
-    def restart_round(self, players):
+    def restart_round(self, players) -> None:
         round_turn: int = self.rounds_done_in
         self.first_turn = (self.first_turn+1)%2
         turn = self.first_turn
@@ -63,7 +64,7 @@ class Round:
             self.rounds_done_in = round_turn
 
     # member function for staring a round
-    def start_round(self, first_turn: int, players: list) -> int:
+    def start_round(self, first_turn: int, players: list) -> None:
         self.did_call.clear()
         self.did_call.extend([False,False])
         self.first_turn = first_turn

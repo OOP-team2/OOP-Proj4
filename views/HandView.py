@@ -1,6 +1,6 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from services.TxtReader import TxtReader
+from views.utils.TxtReader import TxtReader
 from console import sc
 
 POS_PLAYER = [(32, 66), (32, 96)]

@@ -110,44 +110,28 @@ class Round:
         # 한 라운드를 시작하는 루프
         try:
             while False in self.did_call:
-                round_turn += 1
+                if turn % 2 == first_turn:
+                    round_turn += 1
                 # 한 턴씩 진행합니다.
                 # 둘 중에 하나가 죽으면 현재 라운드의 총 베팅 금액은 죽지않은쪽으로 갑니다.
                 # 둘중에 하나라도 게임을 종료하면(exit) 바로 함수를 종료합니다.
-                actions1 = players[turn].actions(round_turn, first_turn, self.did_call[turn])
+                actions = players[turn].actions(round_turn, first_turn, self.did_call[turn])
                 # 선택할 수 있는 액션만 보여줍니다.
                 if players[turn].get_id() == 0:
-                    self.__view_interface.display_menu([action.name for action in actions1])
+                    self.__view_interface.display_menu([action.name for action in actions])
 
                 # 플레이어만 액션을 입력받습니다.
-                action1: Action = None
+                action: Action = None
                 if players[turn].get_id() == 0:
                     user_input = self.__view_interface.display_input()
-                    action1 = actions1[user_input]
+                    action = actions[user_input]
                 else:
-                    action1 = players[turn].auto_action()
-                turn = self.__take_action(action1, turn, players[turn])
+                    action = players[turn].auto_action()
+                turn = self.__take_action(action, turn, players[turn])
                 
                 if not False in self.did_call:
                     break
 
-                # 엑싯한 경우, 그냥 게임을 종료하고 게임의 승자는 상대편이 됩니다.
-                # 예외를 발생시키고 패자 메시지를 담습니다.
-                actions2: Action = players[turn].actions(round_turn, first_turn, self.did_call[turn])
-                # 선택할 수 있는 액션만 보여줍니다.
-                if players[turn].get_id() == 0:
-                    self.__view_interface.display_menu([action.name for action in actions2])
-                # 액션을 입력받습니다.
-                action2: Action = None
-                if players[turn].get_id() == 0:
-                    user_input = self.__view_interface.display_input()
-                    action2 = actions2[user_input]
-                else:
-                    action2 = players[turn].auto_action()
-                turn = self.__take_action(action2, turn, players[turn])
-
-                if not False in self.did_call:
-                    break
         except Die as e:
             # 죽는 행동이 나오면 여기서 캐치해서 라운드를 끝냅니다.
             self.winner_id = (int(str(e))+1)%2
